@@ -6,27 +6,36 @@
 </head>
 <body>
     <h1>Mural - Projeto de Software</h1>
-    <h3>Envie sua mensagem:</h3>
-    <input id="titulo" type="text" placeholder="Titulo">
 
-    <br>
-    <br>
+    <!--ENVIO-->
+    <button onclick="show(envio)">Enviar Mensagem</button>
+    <div id="envio" hidden = false>
+        <br><br>
+        
+        <input id="titulo" type="text" placeholder="Titulo">
+        <br><br>
 
-    <input id="mensagem" type="text" placeholder="Mensagem">
+        <input id="mensagem" type="text" placeholder="Mensagem">
 
-    <br>
-    <br>
+        <br><br>
 
-    <input id="author" type="text" placeholder="Autor"
+        <input id="author" type="text" placeholder="Autor">
+        <button onclick="send(); clear_input()">Enviar</button>
+    </div>
+    
+    <br><br><br>
+    
+    <!--PESQUISA-->
+    <button onclick="show(pesquisa)">Pesquisar</button>
+    <div id="pesquisa" hidden = false>
+        <br><br>
+        <input id="busca" type="text" placeholder="">
+        <button onclick="clear_input();search(busca)">Enviar</button>
+    </div>
 
-    <br>
-    <br>
-    <br>
-
-    <button onclick="send()">Enviar</button>
     <div class="container">
-    <br>
-    <br>
+    <br><br>
+
     <div id="listagem" ></div>
     </div>
     <script src="./client.js"></script>
