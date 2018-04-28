@@ -3,11 +3,57 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Mural PSoft</title>
-</head>
-<body>
-    <h1>Mural - Projeto de Software</h1>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script></head>
 
-    <!--ENVIO-->
+<body>
+    <div class="container" style="width: 830px">
+    <br><br><br>
+    <center><h1>Mural - Projeto de Software</h1></center>
+    <ul class="nav justify-content-center">
+            <li class="nav-item">
+                <a class="nav-link active" href="#" onclick="show(enviar)">Enviar Mensagem</a>
+                <br><br>
+                <div id="enviar" hidden="false">
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
+                        </div>
+                        <input id="titulo" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm" style="width: 418px"> 
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Mensagem</span>
+                        </div>
+                        <textarea id="mensagem" class="form-control" rows="1"></textarea>
+                      
+                    </div>
+                    <div class="input-group input-group-sm mb-3">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text" id="inputGroup-sizing-sm">Autor</span>
+                        </div>
+                        <input id="author" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                        
+                        <button type="button" class="btn btn-outline-secondary btn-sm" onclick="send(); clear_input()" style="
+                            border-left-width: 1px;
+                            margin-left: 3px;
+                            ">Enviar</button>
+                    </div>
+                </div>
+            </li>
+
+            
+            <li class="nav-item">
+              <a class="nav-link" href="#">Pesquisar</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">Apagar</a>
+            </li>
+    </ul>
+
+    
+
+    <!--
     <button onclick="show(envio)">Enviar Mensagem</button>
     <div id="envio" hidden = false>
         <br><br>
@@ -25,17 +71,16 @@
     
     <br><br><br>
     
-    <!--PESQUISA-->
     <button onclick="show(pesquisa)">Pesquisar</button>
     <div id="pesquisa" hidden = false>
         <br><br>
         <input id="busca" type="text" placeholder="">
         <button onclick="clear_input();search(busca)">Enviar</button>
     </div>
-
-    <div class="container">
+    -->
     <br><br>
 
+    
     <div id="listagem" ></div>
     </div>
     <script src="./client.js"></script>
