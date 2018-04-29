@@ -1,0 +1,26 @@
+div.container {
+    width: 830px;
+}
+
+a.nav-link {
+    color: #4e5052;
+}
+
+ul#nav {
+    height: 60px;
+}
+
+button.btn {
+    border-left-width: 1px;
+    margin-left: 3px;
+}
+
+div.card-header {
+    background-color: rgba(236, 235, 235, 0.52);
+    border-bottom: 1px solid rgba(121, 104, 165, 0.85);
+}
+
+div.card {
+    border: 1px solid rgba(121, 104, 165, .85);
+    float: left; 
+}
