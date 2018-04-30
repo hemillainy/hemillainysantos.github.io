@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'FontePadrao';
-    src: url('../Mural/fontes/MagettasLightDEMO.otf');
+    src: local('../Mural/fontes/MagettasLightDEMO.otf'), url('../Mural/fontes/MagettasLightDEMO.otf');
 }
 
 div.container {
@@ -63,6 +63,11 @@ h1#cab, ul#nav, div#enviar, div#pesquisar {
     font-family: 'FontePadrao';
 }
 
+button.btn-sm:focus, button.close:focus {
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
 button.nav-link {
     margin-right: 25px;
     border-color: #0000005c;
@@ -72,7 +77,20 @@ button.btn-sm {
     padding-bottom: 4px;
 }
 
-button.btn-outline-secondary:hover {
-    color: #000000;
+button.btn-outline-secondary:hover, button.btn-secondary {
+    color: #808488;
     background: #ffffffd7;
+}
+
+input.sem_borda:focus, textarea.sem_borda:focus {
+    box-shadow: 0 0 0 0;
+    outline: 0;
+}
+
+input#tipo_pesquisa {
+    height: 31px;
+}
+
+button.btn-outline-secondary {
+    border-color: #ced4da;
 }

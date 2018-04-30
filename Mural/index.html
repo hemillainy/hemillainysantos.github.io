@@ -35,21 +35,27 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
                 </div>
-                <input id="titulo" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> 
+                <input id="titulo" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> 
             </div>
             <div class="input-group input-group-sm mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Mensagem</span>
                 </div>
-                <textarea id="mensagem" class="form-control" rows="1"></textarea>
+                <textarea id="mensagem" class="sem_borda form-control" rows="1"></textarea>
               
             </div>
             <div class="input-group input-group-sm mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Autor</span>
                 </div>
-                <input id="autor" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="send(); clear_input(titulo); clear_input(mensagem); clear_input(autor)">Enviar</button>           
+                <input id="autor" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+            </div>
+            <div class="input-group input-group-sm mb-3">
+                <div class="input-group-prepend">
+                    <span class="input-group-text" id="inputGroup-sizing-sm">Senha</span>
+                </div>
+                <input id="senha" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="send(senha); clear_input(titulo); clear_input(mensagem); clear_input(autor); clear_input(senha)">Enviar</button>           
             </div>
         </div></center>
 
@@ -59,7 +65,7 @@
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
                 </div>
-                <input id="titulo_pesquisa" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> 
+                <input id="titulo_pesquisa" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> 
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="search(titulo_pesquisa); clear_input(titulo_pesquisa)">Enviar</button>
             </div>
         </div></center>

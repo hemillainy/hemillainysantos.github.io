@@ -10,35 +10,39 @@ function update_msgs() {
     .then(r => r.json())
     .then(data => {
         Object.assign(msgs, data);
-        update_views(msgs);
+        update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
     });
 }
 
 function update_views(array) {
-        const items = array.map(e => `
-        <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
-            <div class="card-header">${e.title}</div>
-            <div class="card-body">
-                <h6 class="card-title">${e.msg}</h6>
-                <p class="card-text"></p>
-                    <small class="text-muted">${e.author}</small>
-                    <small class="text-muted">${e.created_at}</small>
-            </div>
-        </div>`).join("\n");
-        listagem.innerHTML = items;        
+    const items = array.map(e => `
+    <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
+        <div class="card-header">${e.title}</div>
+        <div class="card-body">
+            <h6 class="card-title">${e.msg}</h6>
+            <p class="card-text"></p>
+                <small class="text-muted">${e.author},</small>
+                <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
+        </div>
+    </div>`).join("\n");
+    listagem.innerHTML = items;        
 };
 
-function send() {
-    fetch('http://150.165.85.16:9900/api/msgs', {
-    method: 'post',
-    body: JSON.stringify({
-        title:titulo.value, 
-        msg:mensagem.value, 
-        author:autor.value, 
-        credentials:"hemillainy:friends"})
-  })
-  .then(dado => dado.json())
-    update_msgs();
+function send(senha) {
+    if (verifica_senha(senha)){
+        fetch('http://150.165.85.16:9900/api/msgs', {
+        method: 'post',
+        body: JSON.stringify({
+            title:titulo.value, 
+            msg:mensagem.value, 
+            author:autor.value, 
+            credentials:"hemillainy:friends"})
+      })
+      .then(dado => dado.json())
+        update_msgs();
+    } else {
+        alert("Senha Incorreta");
+    }
 }
 
 update_msgs();
@@ -49,7 +53,9 @@ function clear_input(tag){
 
 function search(tag) {
     const array = msgs.filter(a => a.title.toLowerCase().indexOf(tag.value.toLowerCase()) != -1);
+    console.log(tag);
     update_views(array);
+    
 }
 function set_hidden(document){
     if (document.hidden == false) {
@@ -77,8 +83,8 @@ function minhas_msgs(mensagens) {
         <div class="card-body">
         <h6 class="card-title">${e.msg}</h6>
         <p class="card-text"></p>
-            <small class="text-muted">${e.author}</small>
-            <small class="text-muted">${e.created_at}</small>
+            <small class="text-muted">${e.author},</small>
+            <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
         </div>
     </div>`).join("\n");
     listagem.innerHTML = items;        
@@ -91,4 +97,11 @@ function apagar(id){
     .then(function(){
         get_minhas_msgs();
     })
+}
+
+function verifica_senha(senha) {
+    if (senha.value === "friends") {
+        return true;
+    }
+    return false;
 }
