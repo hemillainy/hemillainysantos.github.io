@@ -1,3 +1,8 @@
+@font-face {
+    font-family: 'FontePadrao';
+    src: url('../Mural/fontes/MagettasLightDEMO.otf');
+}
+
 div.container {
     width: 830px;
 }
@@ -17,10 +22,57 @@ button.btn {
 
 div.card-header {
     background-color: rgba(236, 235, 235, 0.52);
-    border-bottom: 1px solid rgba(121, 104, 165, 0.85);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.219);
 }
 
 div.card {
-    border: 1px solid rgba(121, 104, 165, .85);
+    border: 1px solid rgba(0, 0, 0, 0.219);
     float: left; 
+}
+
+div#enviar {
+    text-align: center;
+    width: 400px;
+}
+
+div#pesquisar {
+    width: 400px;
+}
+
+div.scroll::-webkit-scrollbar {
+    width: 5px;
+    background: rgba(0, 0, 0, 0.089);
+}
+
+div.scroll::-webkit-scrollbar-thumb {
+    background: rgba(14, 13, 14, 0.418);
+    border-radius: 9px;
+}
+
+body::-webkit-scrollbar {
+    width: 8px;
+    background: rgba(0, 0, 0, 0.089);
+}
+
+body::-webkit-scrollbar-thumb {
+    background: rgba(14, 13, 14, 0.432);
+    border-radius: 9px;
+}
+
+h1#cab, ul#nav, div#enviar, div#pesquisar {
+    font-family: 'FontePadrao';
+}
+
+button.nav-link {
+    margin-right: 25px;
+    border-color: #0000005c;
+}
+button.btn-sm {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+button.btn-outline-secondary:hover {
+    color: #000000;
+    background: #ffffffd7;
 }

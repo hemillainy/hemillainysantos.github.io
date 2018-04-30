@@ -7,29 +7,30 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script></head>
     
-<body>
+<body style="background: #fbfbfb">
+    
     <div class="container">
     <br><br><br>
-    <center><h1>Mural - Projeto de Software</h1></center>
+    <center><h1 id="cab" class="display-4">Mural - Projeto de Software</h1></center>
     <br>
     <!--BARRA DE NAVEGACAO-->
-    <ul id="nav" class="nav justify-content-center nav-justified">
+    <ul id="nav" class="nav justify-content-center ">
             <li class="nav-item">
-                <a class="nav-link" href="#enviar" onclick="update_msgs()">Inicio</a>
+                <button type="button" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Inicio</button>
             </li>
             <li class="nav-item">
-                <a class="nav-link" href="#enviar" onclick="show(enviar)">Enviar Mensagem</a>
+                <button type="button" href="#enviar" class="nav-link btn btn-outline-secondary btn-sm" onclick="show(enviar); set_hidden(pesquisar)">Enviar Mensagem</button>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#pesquisar" onclick="show(pesquisar)">Pesquisar</a>
+            <button type="button" href="#pesquisar" class="nav-link btn btn-outline-secondary btn-sm" onclick="show(pesquisar); set_hidden(enviar)">Pesquisar</button>              
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="#apagar" onclick="get_minhas_msgs()">Apagar</a>
+            <button type="button" href="#apagar" class="nav-link btn btn-outline-secondary btn-sm" onclick="get_minhas_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Apagar</button>
             </li>
     </ul>
 
     <!--ENVIAR-->
-    <div id="enviar" hidden="false">
+    <center><div id="enviar" hidden="false">
             <div class="input-group input-group-sm mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
@@ -50,10 +51,10 @@
                 <input id="autor" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="send(); clear_input(titulo); clear_input(mensagem); clear_input(autor)">Enviar</button>           
             </div>
-        </div>
+        </div></center>
 
         <!--PESQUISAR-->
-        <div id="pesquisar" hidden="false">
+        <center><div id="pesquisar" hidden="false">
             <div class="input-group input-group-sm mb-3">
                 <div class="input-group-prepend">
                     <span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
@@ -61,7 +62,7 @@
                 <input id="titulo_pesquisa" type="text" class="form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> 
                 <button type="button" class="btn btn-outline-secondary btn-sm" onclick="search(titulo_pesquisa); clear_input(titulo_pesquisa)">Enviar</button>
             </div>
-        </div>
+        </div></center>
     <br><br>
 
     

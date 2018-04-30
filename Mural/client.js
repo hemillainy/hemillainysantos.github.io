@@ -16,7 +16,7 @@ function update_msgs() {
 
 function update_views(array) {
         const items = array.map(e => `
-        <div class="card bg-light mb-3" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
+        <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
             <div class="card-header">${e.title}</div>
             <div class="card-body">
                 <h6 class="card-title">${e.msg}</h6>
@@ -51,6 +51,11 @@ function search(tag) {
     const array = msgs.filter(a => a.title.toLowerCase().indexOf(tag.value.toLowerCase()) != -1);
     update_views(array);
 }
+function set_hidden(document){
+    if (document.hidden == false) {
+        document.hidden = true;
+    }
+}
 
 function show(document){
     document.hidden = !document.hidden;   
@@ -64,8 +69,8 @@ function get_minhas_msgs() {
 
 function minhas_msgs(mensagens) {
     const items = mensagens.map(e => `
-    <div class="card bg-light mb-3" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
-        <button type="button" class="close" aria-label="Close" onclick="apagar()">
+    <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
+        <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id})">
             <span aria-hidden="true" style="padding-left: 220px">&times;</span>
         </button>
         <div class="card-header">${e.title}</div>
@@ -79,10 +84,11 @@ function minhas_msgs(mensagens) {
     listagem.innerHTML = items;        
 };
 
-function apagar(){
-    fetch("http://150.165.85.16:9900/api/msgs/:id", {
-    method: "delete",
-    body: JSON.stringify({credentials:"hemillainy:friends"})
+function apagar(id){
+    const body = JSON.stringify({credentials: "hemillainy:friends"})
+    fetch("http://150.165.85.16:9900/api/msgs/"+`${id}`+"",
+    {method: "delete", body: body})
+    .then(function(){
+        get_minhas_msgs();
     })
-    .then();
 }
