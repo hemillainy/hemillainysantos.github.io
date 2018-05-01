@@ -19,10 +19,10 @@
                 <button type="button" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Inicio</button>
             </li>
             <li class="nav-item">
-                <button type="button" href="#enviar" class="nav-link btn btn-outline-secondary btn-sm" onclick="show(enviar); set_hidden(pesquisar)">Enviar Mensagem</button>
+                <button type="button" href="#enviar" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); show(enviar); set_hidden(pesquisar)">Enviar Mensagem</button>
             </li>
             <li class="nav-item">
-            <button type="button" href="#pesquisar" class="nav-link btn btn-outline-secondary btn-sm" onclick="show(pesquisar); set_hidden(enviar)">Pesquisar</button>              
+            <button type="button" href="#pesquisar" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); show(pesquisar); set_hidden(enviar)">Pesquisar</button>              
             </li>
             <li class="nav-item">
             <button type="button" href="#apagar" class="nav-link btn btn-outline-secondary btn-sm" onclick="get_minhas_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Apagar</button>
@@ -63,10 +63,16 @@
         <center><div id="pesquisar" hidden="false">
             <div class="input-group input-group-sm mb-3">
                 <div class="input-group-prepend">
-                    <span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
+                    <select id="opcoes" onchange="get_select_value()">
+                        <option value="titulo_p">Titulo</option>
+                        <option value="mensagem_p">Mensagem</option>
+                        <option value="autor_p">Autor</option>
+                    </select>
+                    <!--<span class="input-group-text" id="inputGroup-sizing-sm">Titulo</span>
+                    -->
                 </div>
                 <input id="titulo_pesquisa" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm"> 
-                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="search(titulo_pesquisa); clear_input(titulo_pesquisa)">Enviar</button>
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="search(get_select_value(), titulo_pesquisa); clear_input(titulo_pesquisa)">Enviar</button>
             </div>
         </div></center>
     <br><br>

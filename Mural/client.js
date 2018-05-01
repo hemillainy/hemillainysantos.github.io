@@ -51,12 +51,24 @@ function clear_input(tag){
     tag.value = "";
 }
 
-function search(tag) {
-    const array = msgs.filter(a => a.title.toLowerCase().indexOf(tag.value.toLowerCase()) != -1);
-    console.log(tag);
-    update_views(array);
-    
+function get_select_value() {
+    var value = document.getElementById("opcoes").value;
+    return value;
 }
+
+function search(opcao, atributo) {
+    if(opcao === "titulo_p") {
+        const array = msgs.filter(a => a.title.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
+        update_views(array);
+    } else if (opcao === "mensagem_p") {
+        const array = msgs.filter(a => a.msg.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
+        update_views(array);
+    } else {
+        const array = msgs.filter(a => a.author.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
+        update_views(array);
+    }    
+}
+
 function set_hidden(document){
     if (document.hidden == false) {
         document.hidden = true;
@@ -69,14 +81,13 @@ function show(document){
 
 function get_minhas_msgs() {
     let mensagens = msgs.filter(e => e.frontend === "hemillainy");
-    console.log(mensagens);
     minhas_msgs(mensagens);
 }
 
 function minhas_msgs(mensagens) {
     const items = mensagens.map(e => `
     <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
-        <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id})">
+        <button type="button" class="close" aria-label="Close" onclick="apagar(recebe_senha(),${e.id})">
             <span aria-hidden="true" style="padding-left: 220px">&times;</span>
         </button>
         <div class="card-header">${e.title}</div>
@@ -90,13 +101,17 @@ function minhas_msgs(mensagens) {
     listagem.innerHTML = items;        
 };
 
-function apagar(id){
-    const body = JSON.stringify({credentials: "hemillainy:friends"})
-    fetch("http://150.165.85.16:9900/api/msgs/"+`${id}`+"",
-    {method: "delete", body: body})
-    .then(function(){
-        get_minhas_msgs();
-    })
+function apagar(senha, id){
+    if (senha === "friends") {
+        const body = JSON.stringify({credentials: "hemillainy:friends"})
+        fetch("http://150.165.85.16:9900/api/msgs/"+`${id}`+"",
+        {method: "delete", body: body})
+        .then(function(){
+            get_minhas_msgs();
+        })
+    } else {
+        alert("Senha Incorreta");
+    }
 }
 
 function verifica_senha(senha) {
@@ -104,4 +119,9 @@ function verifica_senha(senha) {
         return true;
     }
     return false;
+}
+
+function recebe_senha(){
+    const senha = prompt("Digite sua senha:");
+    return senha;
 }
