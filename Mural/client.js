@@ -16,7 +16,7 @@ function update_msgs() {
 
 function update_views(array) {
     const items = array.map(e => `
-    <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
+    <div class="card bg-light mb-3 shadow scroll">
         <div class="card-header">${e.title}</div>
         <div class="card-body">
             <h6 class="card-title">${e.msg}</h6>
@@ -86,7 +86,7 @@ function get_minhas_msgs() {
 
 function minhas_msgs(mensagens) {
     const items = mensagens.map(e => `
-    <div class="card bg-light mb-3 shadow scroll" style="max-width: 18rem; margin-right: 15px; height: 152px; width: 251px; overflow: auto">
+    <div class="card bg-light mb-3 shadow scroll">
         <button type="button" class="close" aria-label="Close" onclick="apagar(recebe_senha(),${e.id})">
             <span aria-hidden="true" style="padding-left: 220px">&times;</span>
         </button>
