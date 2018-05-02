@@ -3,7 +3,32 @@ const titulo = document.getElementById("titulo");
 const mensagem = document.getElementById("mensagem");
 const autor = document.getElementById("autor");
 
+let frontend = "";
+
+let login = false;
+
 let msgs = [];
+let frontends = [];
+
+function get_frontends () {
+    fetch('http://150.165.85.16:9900/api/frontends')
+    .then(r => r.json())
+    .then(data => {
+        Object.assign(frontends, data);
+    });
+}
+
+function login_frontend(front, tag) {
+    get_frontends();
+    if (frontends.filter(f => f === front.value).length == 1) {
+        login = true;
+        set_hidden(tag);
+        frontend = front;
+        update_msgs();
+    } else {
+        alert("Frontend não cadastrado!");
+    }
+}
 
 function update_msgs() {
     fetch('http://150.165.85.16:9900/api/msgs')
@@ -15,17 +40,19 @@ function update_msgs() {
 }
 
 function update_views(array) {
-    const items = array.map(e => `
-    <div class="card bg-light mb-3 shadow scroll">
-        <div class="card-header">${e.title}</div>
-        <div class="card-body">
-            <h6 class="card-title">${e.msg}</h6>
-            <p class="card-text"></p>
-                <small class="text-muted">${e.author},</small>
-                <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
-        </div>
-    </div>`).join("\n");
-    listagem.innerHTML = items;        
+    if (login) {
+        const items = array.map(e => `
+        <div class="card bg-light mb-3 shadow scroll">
+            <div class="card-header">${e.title}</div>
+            <div class="card-body">
+                <h6 class="card-title">${e.msg}</h6>
+                <p class="card-text"></p>
+                    <small class="text-muted">${e.author},</small>
+                    <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
+            </div>
+        </div>`).join("\n");
+        listagem.innerHTML = items;        
+    }
 };
 
 function send(senha) {

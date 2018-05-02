@@ -35,7 +35,7 @@ div.card {
     overflow: auto;
 }
 
-div#enviar {
+div#enviar, div#login_f {
     text-align: center;
     width: 400px;
 }
@@ -64,7 +64,7 @@ body::-webkit-scrollbar-thumb {
     border-radius: 9px;
 }
 
-h1#cab, ul#nav, div#enviar, div#pesquisar {
+h1#cab, ul#nav, div#enviar, div#pesquisar, div#login_f {
     font-family: 'FontePadrao';
 }
 
