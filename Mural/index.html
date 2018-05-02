@@ -27,7 +27,7 @@
             <button type="button" href="#pesquisar" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); show(pesquisar); set_hidden(enviar)">Pesquisar</button>              
             </li>
             <li class="nav-item">
-            <button type="button" href="#apagar" class="nav-link btn btn-outline-secondary btn-sm" onclick="get_minhas_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Apagar</button>
+            <button type="button" href="#apagar" class="nav-link btn btn-outline-secondary btn-sm" onclick="get_msgs_front(); set_hidden(enviar); set_hidden(pesquisar)">Apagar</button>
             </li>
     </ul>
 
@@ -88,7 +88,7 @@
                 <span class="input-group-text" id="inputGroup-sizing-sm">Frontend</span>
             </div>
             <input id="front" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="login_frontend(front, login_f); clear_input(front);">Enviar</button>           
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="login_frontend(front, login_f);">Enviar</button>           
         </div>
     </div></center>
 
