@@ -3,7 +3,33 @@ const titulo = document.getElementById("titulo");
 const mensagem = document.getElementById("mensagem");
 const autor = document.getElementById("autor");
 
+let frontend = "";
+
+let login = false;
+
 let msgs = [];
+
+function login_frontend(front, tag) {
+    fetch('http://150.165.85.16:9900/api/frontends')
+    .then(r => r.json())
+    .then(frontends => {
+        if (frontends.indexOf(front.value) != -1) {
+        login = true;
+        set_hidden(tag);
+        frontend = front.value;
+        update_msgs();
+        clear_input(front);
+    } else {
+        alert("Frontend não cadastrado!");
+    }});
+}
+
+function verifica_senha(senha) {
+    if (senha.value === "friends") {
+        return true;
+    }
+    return false;
+}
 
 function update_msgs() {
     fetch('http://150.165.85.16:9900/api/msgs')
@@ -15,35 +41,43 @@ function update_msgs() {
 }
 
 function update_views(array) {
-    const items = array.map(e => `
-    <div class="card bg-light mb-3 shadow scroll">
-        <div class="card-header">${e.title}</div>
-        <div class="card-body">
-            <h6 class="card-title">${e.msg}</h6>
-            <p class="card-text"></p>
-                <small class="text-muted">${e.author},</small>
-                <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
-        </div>
-    </div>`).join("\n");
-    listagem.innerHTML = items;        
+    if (login) {
+        const items = array.map(e => `
+        <div class="card bg-light mb-3 shadow scroll">
+            <div class="card-header">${e.title}</div>
+            <div class="card-body">
+                <h6 class="card-title">${e.msg}</h6>
+                <p class="card-text"></p>
+                    <small class="text-muted">${e.author},</small>
+                    <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
+            </div>
+        </div>`).join("\n");
+        listagem.innerHTML = items;        
+    }
 };
 
 function send(senha) {
-    if (verifica_senha(senha)){
-        fetch('http://150.165.85.16:9900/api/msgs', {
-        method: 'post',
-        body: JSON.stringify({
-            title:titulo.value, 
-            msg:mensagem.value, 
-            author:autor.value, 
-            credentials:"hemillainy:friends"})
-      })
-      .then(dado => dado.json())
-        update_msgs();
-    } else {
-        alert("Senha Incorreta");
-    }
-}
+    console.log(frontend);
+    var result = null;
+    fetch('http://150.165.85.16:9900/api/msgs', {
+    method: 'post', 
+    body: JSON.stringify({
+        title: titulo.value,
+        msg: mensagem.value,
+        author: autor.value,
+        credentials: `${frontend}:${senha.value}`})
+    })
+    .then(function (response){
+        result = response;
+        return response.json()})
+        .then(function(body){
+            if(result.status != 200){
+                alert("Senha incorreta");
+            }
+        })
+    };
+
+
 
 update_msgs();
 
@@ -79,12 +113,12 @@ function show(document){
     document.hidden = !document.hidden;   
 }
 
-function get_minhas_msgs() {
-    let mensagens = msgs.filter(e => e.frontend === "hemillainy");
-    minhas_msgs(mensagens);
+function get_msgs_front() {
+    let mensagens = msgs.filter(e => e.frontend === frontend);
+    msgs_front(mensagens);
 }
 
-function minhas_msgs(mensagens) {
+function msgs_front(mensagens) {
     const items = mensagens.map(e => `
     <div class="card bg-light mb-3 shadow scroll">
         <button type="button" class="close" aria-label="Close" onclick="apagar(recebe_senha(),${e.id})">
@@ -111,14 +145,7 @@ function apagar(senha, id){
         })
     } else {
         alert("Senha Incorreta");
-    }
-}
-
-function verifica_senha(senha) {
-    if (senha.value === "friends") {
-        return true;
-    }
-    return false;
+    };
 }
 
 function recebe_senha(){
