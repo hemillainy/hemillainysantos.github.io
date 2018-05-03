@@ -15,9 +15,6 @@
     <!--BARRA DE NAVEGACAO-->
     <ul id="nav" class="nav justify-content-center ">
             <li class="nav-item">
-                <button type="button" href="#login" class="nav-link btn btn-outline-secondary btn-sm" onclick="set_hidden(enviar); set_hidden(pesquisar)">Login</button>
-            </li>
-            <li class="nav-item">
                 <button type="button" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Inicio</button>
             </li>
             <li class="nav-item">
@@ -28,6 +25,9 @@
             </li>
             <li class="nav-item">
             <button type="button" href="#apagar" class="nav-link btn btn-outline-secondary btn-sm" onclick="get_msgs_front(); set_hidden(enviar); set_hidden(pesquisar)">Apagar</button>
+            </li>
+            <li class="nav-item">
+                <button type="button" href="#login" class="nav-link btn btn-outline-secondary btn-sm" onclick="set_hidden(enviar); set_hidden(pesquisar); show(login_f); set_hidden(listagem)">Login</button>
             </li>
     </ul>
 
@@ -80,7 +80,7 @@
     <br><br>
 
     <!--LOGIN-->
-    <center><div id="login_f">
+    <center><div id="login_f" hidden="false">
         <h5>Entre com seu user de frontend para começar a enviar mensagens:</h5>
         <br>
         <div class="input-group input-group-sm mb-3">
@@ -88,7 +88,7 @@
                 <span class="input-group-text" id="inputGroup-sizing-sm">Frontend</span>
             </div>
             <input id="front" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="login_frontend(front, login_f);">Enviar</button>           
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="login_frontend(front, login_f); show(listagem)">Enviar</button>           
         </div>
     </div></center>
 

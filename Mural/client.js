@@ -5,10 +5,7 @@ const autor = document.getElementById("autor");
 
 let frontend = "";
 
-let login = false;
-
 let msgs = [];
-let frontends = [];
 
 function get_frontends () {
     fetch('http://150.165.85.16:9900/api/frontends')
@@ -18,24 +15,12 @@ function get_frontends () {
     });
 }
 
-function login_frontend(front, tag) {
-    get_frontends();
-    if (frontends.filter(f => f === front.value).length == 1) {
-        login = true;
-        set_hidden(tag);
-        frontend = front;
-        update_msgs();
-    } else {
-        alert("Frontend não cadastrado!");
-    }
-}
 
 function login_frontend(front, tag) {
     fetch('http://150.165.85.16:9900/api/frontends')
     .then(r => r.json())
     .then(frontends => {
         if (frontends.indexOf(front.value) != -1) {
-        login = true;
         set_hidden(tag);
         frontend = front.value;
         update_msgs();
@@ -62,7 +47,6 @@ function update_msgs() {
 }
 
 function update_views(array) {
-    if (login) {
         const items = array.map(e => `
         <div class="card bg-light mb-3 shadow scroll">
             <div class="card-header">${e.title}</div>
@@ -74,11 +58,9 @@ function update_views(array) {
             </div>
         </div>`).join("\n");
         listagem.innerHTML = items;        
-    }
 };
 
 function send(senha) {
-    console.log(frontend);
     var result = null;
     fetch('http://150.165.85.16:9900/api/msgs', {
     method: 'post', 
@@ -157,17 +139,21 @@ function msgs_front(mensagens) {
 };
 
 function apagar(senha, id){
-    if (senha === "friends") {
-        const body = JSON.stringify({credentials: "hemillainy:friends"})
-        fetch("http://150.165.85.16:9900/api/msgs/"+`${id}`+"",
-        {method: "delete", body: body})
-        .then(function(){
-            get_minhas_msgs();
+    var result = null;
+    const body = JSON.stringify({credentials: `${frontend}:${senha}`});
+    fetch(`http://150.165.85.16:9900/api/msgs/${id}`, {
+    method: 'delete', 
+    body:body})
+    .then(function (response){
+        result = response;
+        return response.json()})
+        .then(function(body){
+            if(result.status != 200){
+                console.log(result);
+                alert("Senha incorreta");
+            }
         })
-    } else {
-        alert("Senha Incorreta");
     };
-}
 
 function recebe_senha(){
     const senha = prompt("Digite sua senha:");
