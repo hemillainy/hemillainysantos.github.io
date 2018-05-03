@@ -7,34 +7,52 @@ let frontend = "";
 
 let msgs = [];
 
-function get_frontends () {
-    fetch('http://150.165.85.16:9900/api/frontends')
-    .then(r => r.json())
-    .then(data => {
-        Object.assign(frontends, data);
-    });
+function set_button_login() {
+    if(frontend.length == 0) {
+        document.getElementById("name_button").innerText = "Login";
+        document.getElementById("login_f").hidden = false;
+        listagem.hidden = true;
+    } else {
+        document.getElementById("name_button").innerText = "Logout";
+    }
 }
-
 
 function login_frontend(front, tag) {
-    fetch('http://150.165.85.16:9900/api/frontends')
-    .then(r => r.json())
-    .then(frontends => {
-        if (frontends.indexOf(front.value) != -1) {
-        set_hidden(tag);
-        frontend = front.value;
-        update_msgs();
-        clear_input(front);
+    if (frontend.length == 0) {
+        fetch('http://150.165.85.16:9900/api/frontends')
+        .then(r => r.json())
+        .then(frontends => {
+            if (frontends.indexOf(front.value) != -1) {
+            document.getElementById("listagem").hidden = false;
+            tag.hidden = true;
+            frontend = front.value;
+            update_msgs();
+            clear_input(front);
+            set_button_login();
+            set_hidden("login_alert");
+        } else {
+            alert("Frontend não cadastrado!");
+        }});
     } else {
-        alert("Frontend não cadastrado!");
-    }});
+        logout();
+    }
 }
 
-function verifica_senha(senha) {
-    if (senha.value === "friends") {
-        return true;
+function logout() {
+    if (frontend.length != 0) {
+        swal({
+            title: "Confirmar logout?",
+            icon: "warning",
+            buttons: true,
+            dangerMode: true,
+            })
+            .then((willDelete) => {
+            if (willDelete) {
+                frontend = "";
+                set_button_login();
+            }
+        });
     }
-    return false;
 }
 
 function update_msgs() {
@@ -47,7 +65,11 @@ function update_msgs() {
 }
 
 function update_views(array) {
-        const items = array.map(e => `
+    const itens = msgs.filter(function (e) {
+            if (e.frontend != "icaro" && e.frontend != "caiolira" && e.frontend != "hgalvao") {
+                return e;
+            }
+        }).map(e => `
         <div class="card bg-light mb-3 shadow scroll">
             <div class="card-header">${e.title}</div>
             <div class="card-body">
@@ -57,7 +79,7 @@ function update_views(array) {
                     <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
             </div>
         </div>`).join("\n");
-        listagem.innerHTML = items;        
+        listagem.innerHTML = itens;        
 };
 
 function send(senha) {
@@ -106,17 +128,38 @@ function search(opcao, atributo) {
     }    
 }
 
-function set_hidden(document){
-    if (document.hidden == false) {
-        document.hidden = true;
+function set_hidden(doc){
+    console.log(doc);
+    if (doc == "login_alert"){
+        document.getElementById("login_alert").hidden = "true";
+    }
+    else if (doc.hidden == false && frontend.length != 0) {
+        doc.hidden = true;
     }
 }
 
 function show(document){
-    document.hidden = !document.hidden;   
+    if (frontend.length != 0) {
+        document.hidden = !document.hidden;   
+    } else {
+        alert_login();
+    }
+}
+
+function alert_login() {
+    if (frontend.length == 0) {
+        document.getElementById("login_alert").hidden = false;
+        document.getElementById("login_alert").innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>Você precisa estar logado!</strong>
+            <button onclick="set_hidden('login_alert')" type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+        </div>`;
+    }
 }
 
 function get_msgs_front() {
+    alert_login();
     let mensagens = msgs.filter(e => e.frontend === frontend);
     msgs_front(mensagens);
 }
@@ -152,10 +195,13 @@ function apagar(senha, id){
                 console.log(result);
                 alert("Senha incorreta");
             }
-        })
+        }).then(function(){
+            get_msgs_front();
+        });
     };
 
 function recebe_senha(){
     const senha = prompt("Digite sua senha:");
     return senha;
 }
+

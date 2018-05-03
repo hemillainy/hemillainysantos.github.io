@@ -65,7 +65,7 @@ body::-webkit-scrollbar-thumb {
 }
 
 h1#cab, ul#nav, div#enviar, div#pesquisar, div#login_f {
-    font-family: 'FontePadrao';
+    font-family: 'FontePadrao'; 
 }
 
 button.btn-sm:focus, button.close:focus {
@@ -99,4 +99,12 @@ input#tipo_pesquisa {
 
 button.btn-outline-secondary {
     border-color: #ced4da;
+}
+
+body {
+    background-color: #fbfbfb
+}
+
+div#login_alert {
+    text-align: center;
 }

@@ -3,11 +3,12 @@
 <head>
     <meta charset="UTF-8"/>
     <title>Mural PSoft</title>
-    <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/css/bootstrap.min.css" integrity="sha384-9gVQ4dYFwwWSjIDZnLEWnxCjeSWFphJiwGPXr1jddIhOegiu1FwO5qRGvFXOdJZ4" crossorigin="anonymous">
+    <link rel="stylesheet" href="style.css">
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.0/js/bootstrap.min.js" integrity="sha384-uefMccjFJAIv6A+rW+L4AHf99KvxDjWSu1z9VI8SKNVmz4sk7buKt/6v9KI65qnm" crossorigin="anonymous"></script></head>
-    
-<body style="background: #fbfbfb">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+<body >
     <div class="container">
     <br><br><br>
     <center><h1 id="cab" class="display-4">Mural - Projeto de Software</h1></center>
@@ -15,10 +16,10 @@
     <!--BARRA DE NAVEGACAO-->
     <ul id="nav" class="nav justify-content-center ">
             <li class="nav-item">
-                <button type="button" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Inicio</button>
+                <button type="button" class="nav-link btn btn-outline-secondary btn-sm" onclick="alert_login();update_msgs(); set_hidden(enviar); set_hidden(pesquisar)">Inicio</button>
             </li>
             <li class="nav-item">
-                <button type="button" href="#enviar" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); show(enviar); set_hidden(pesquisar)">Enviar Mensagem</button>
+                <button type="button" href="#enviar" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); show(enviar); set_hidden(pesquisar);">Enviar Mensagem</button>
             </li>
             <li class="nav-item">
             <button type="button" href="#pesquisar" class="nav-link btn btn-outline-secondary btn-sm" onclick="update_msgs(); show(pesquisar); set_hidden(enviar)">Pesquisar</button>              
@@ -27,7 +28,9 @@
             <button type="button" href="#apagar" class="nav-link btn btn-outline-secondary btn-sm" onclick="get_msgs_front(); set_hidden(enviar); set_hidden(pesquisar)">Apagar</button>
             </li>
             <li class="nav-item">
-                <button type="button" href="#login" class="nav-link btn btn-outline-secondary btn-sm" onclick="set_hidden(enviar); set_hidden(pesquisar); show(login_f); set_hidden(listagem)">Login</button>
+                <button type="button" href="#login" class="nav-link btn btn-outline-secondary btn-sm" onclick="logout(); set_button_login(); set_hidden(enviar); set_hidden(pesquisar);">
+                    <span id="name_button">Login</span>
+                </button>
             </li>
     </ul>
 
@@ -57,7 +60,7 @@
                     <span class="input-group-text" id="inputGroup-sizing-sm">Senha</span>
                 </div>
                 <input id="senha" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="send(senha); clear_input(titulo); clear_input(mensagem); clear_input(autor); clear_input(senha)">Enviar</button>           
+                <button type="button" class="btn btn-outline-secondary btn-sm" onclick="update_msgs();send(senha); clear_input(titulo); clear_input(mensagem); clear_input(autor); clear_input(senha)">Enviar</button>           
             </div>
         </div></center>
 
@@ -80,7 +83,7 @@
     <br><br>
 
     <!--LOGIN-->
-    <center><div id="login_f" hidden="false">
+    <center><div id="login_f">
         <h5>Entre com seu user de frontend para começar a enviar mensagens:</h5>
         <br>
         <div class="input-group input-group-sm mb-3">
@@ -88,11 +91,13 @@
                 <span class="input-group-text" id="inputGroup-sizing-sm">Frontend</span>
             </div>
             <input id="front" type="text" class="sem_borda form-control" aria-label="Small" aria-describedby="inputGroup-sizing-sm">
-            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="login_frontend(front, login_f); show(listagem)">Enviar</button>           
+            <button type="button" class="btn btn-outline-secondary btn-sm" onclick="login_frontend(front, login_f);">Enviar</button>           
         </div>
     </div></center>
 
-    <div id="listagem"></div>
+    <div id="listagem" hidden="false"></div>
+    <br><br><br>
+    <div id="login_alert" hidden="false"></div>
     </div>
     <script src="./client.js"></script>
 </body>
