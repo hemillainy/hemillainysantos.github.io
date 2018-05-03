@@ -97,7 +97,7 @@ function send(senha) {
         return response.json()})
         .then(function(body){
             if(result.status != 200){
-                alert("Senha incorreta");
+                swal("Senha incorreta");
             }
         })
     };
@@ -192,8 +192,7 @@ function apagar(senha, id){
         return response.json()})
         .then(function(body){
             if(result.status != 200){
-                console.log(result);
-                alert("Senha incorreta");
+                swal("Senha incorreta");
             }
         }).then(function(){
             get_msgs_front();
