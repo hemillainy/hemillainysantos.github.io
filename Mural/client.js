@@ -65,7 +65,7 @@ function update_msgs() {
 }
 
 function update_views(array) {
-    const itens = msgs.filter(function (e) {
+    const itens = array.filter(function (e) {
             if (e.frontend != "icaro" && e.frontend != "caiolira" && e.frontend != "hgalvao") {
                 return e;
             }
@@ -129,7 +129,6 @@ function search(opcao, atributo) {
 }
 
 function set_hidden(doc){
-    console.log(doc);
     if (doc == "login_alert"){
         document.getElementById("login_alert").hidden = "true";
     }
