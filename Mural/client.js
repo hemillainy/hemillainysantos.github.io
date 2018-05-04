@@ -55,13 +55,16 @@ function logout() {
     }
 }
 
-function update_msgs() {
+function update_msgs(update_view) {
     fetch('http://150.165.85.16:9900/api/msgs')
     .then(r => r.json())
     .then(data => {
-        Object.assign(msgs, data);
-        update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
-    });
+        msgs = data;
+        console.log(msgs);
+        if (update_view) {
+            update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
+        }
+    })
 }
 
 function update_views(array) {
@@ -159,6 +162,7 @@ function alert_login() {
 
 function get_msgs_front() {
     alert_login();
+    update_msgs(false);
     let mensagens = msgs.filter(e => e.frontend === frontend);
     msgs_front(mensagens);
 }
@@ -186,11 +190,8 @@ function apagar(senha, id){
     fetch(`http://150.165.85.16:9900/api/msgs/${id}`, {
     method: 'delete', 
     body:body})
-    .then(function (response){
-        result = response;
-        return response.json()})
-        .then(function(body){
-            if(result.status != 200){
+        .then(function(response){
+            if(response.status != 200){
                 swal("Senha incorreta");
             }
         }).then(function(){
