@@ -55,16 +55,13 @@ function logout() {
     }
 }
 
-function update_msgs(update_view) {
+function update_msgs() {
     fetch('http://150.165.85.16:9900/api/msgs')
     .then(r => r.json())
     .then(data => {
         msgs = data;
-        console.log(msgs);
-        if (update_view) {
-            update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
-        }
-    })
+        update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
+    });
 }
 
 function update_views(array) {
@@ -101,6 +98,8 @@ function send(senha) {
         .then(function(body){
             if(result.status != 200){
                 swal("Senha incorreta");
+            } else {
+                update_msgs();
             }
         })
     };
@@ -162,13 +161,17 @@ function alert_login() {
 
 function get_msgs_front() {
     alert_login();
-    update_msgs(false);
-    let mensagens = msgs.filter(e => e.frontend === frontend);
-    msgs_front(mensagens);
+    fetch('http://150.165.85.16:9900/api/msgs')
+    .then(r => r.json())
+    .then(data => {
+        msgs = data;
+        msgs_front(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
+    });
 }
 
 function msgs_front(mensagens) {
-    const items = mensagens.map(e => `
+    
+    const items = msgs.filter(e => e.frontend === frontend).map(e => `
     <div class="card bg-light mb-3 shadow scroll">
         <button type="button" class="close" aria-label="Close" onclick="apagar(recebe_senha(),${e.id})">
             <span aria-hidden="true" style="padding-left: 220px">&times;</span>
