@@ -75,17 +75,37 @@ function update_views(array) {
             if (e.frontend != "icaro" && e.frontend != "caiolira" && e.frontend != "hgalvao") {
                 return e;
             }
-        }).map(e => `
-        <div class="card bg-light mb-3 shadow scroll">
-            <div class="card-header">${e.title}</div>
-            <div class="card-body">
+        }).map(function(e) {
+        var body = "";
+        if (e.frontend == frontend) {
+            body = `
+            <div class="card bg-light mb-3 shadow scroll">
+                <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id})">
+                    <span aria-hidden="true" style="padding-left: 220px">&times;</span>
+                </button>
+                <div class="card-header">${e.title}</div>
+                <div class="card-body">
                 <h6 class="card-title">${e.msg}</h6>
                 <p class="card-text"></p>
                     <small class="text-muted">${e.author},</small>
                     <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
-            </div>
-        </div>`).join("\n");
-        listagem.innerHTML = itens;        
+                </div>
+            </div>`
+        } else {
+            body = `
+            <div class="card bg-light mb-3 shadow scroll">
+                <div class="card-header">${e.title}</div>
+                <div class="card-body">
+                    <h6 class="card-title">${e.msg}</h6>
+                    <p class="card-text"></p>
+                        <small class="text-muted">${e.author},</small>
+                        <small class="text-muted">${new Date(e.created_at).toLocaleDateString()} às ${new Date(e.created_at).toLocaleTimeString()}</small>
+                </div>
+            </div>`;
+        }
+        return body;
+        });
+        listagem.innerHTML = itens.join("\n");        
 };
 
 function send(senha) {
@@ -191,6 +211,7 @@ function get_msgs_front() {
     });
 }
 
+
 function msgs_front(mensagens) {
     const items = msgs.filter(e => e.frontend === frontend).map(e => `
     <div class="card bg-light mb-3 shadow scroll">
@@ -237,7 +258,7 @@ view_botao();
 
 function view_botao(){
     window.onscroll = function(){
-        var top = window.pageYOffset || document.documentElement.scrollTop
+        var top = window.pageYOffset;
         if( top > 300 ) {
             document.getElementById("topo").hidden = false;
         } else {
@@ -245,10 +266,3 @@ function view_botao(){
         }
     }
 }
-
-/*function view_botao() {
-    if( window.pageYOffset > 350 ) {
-        console.log("ok");
-        document.getElementById("topo").hidden = false;
-    }
-}*/
