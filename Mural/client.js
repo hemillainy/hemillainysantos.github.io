@@ -29,9 +29,10 @@ function login_frontend(front, tag) {
             update_msgs();
             clear_input(front);
             set_button_login();
-            set_hidden("login_alert");
+            set_hidden("alert")
         } else {
-            alert("Frontend não cadastrado!");
+            document.getElementById("alert").hidden = false;
+            document.getElementById("alert").innerHTML = alert_simples("Frontend não cadastrado!");
         }});
     } else {
         logout();
@@ -50,21 +51,26 @@ function logout() {
             if (willDelete) {
                 frontend = "";
                 set_button_login();
+                document.getElementById("alert").hidden = true;
             }
         });
     }
 }
 
 function update_msgs() {
-    fetch('http://150.165.85.16:9900/api/msgs')
-    .then(r => r.json())
-    .then(data => {
-        msgs = data;
-        update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
-    });
+    if (frontend.length != 0){
+        fetch('http://150.165.85.16:9900/api/msgs')
+        .then(r => r.json())
+        .then(data => {
+            msgs = data;
+            update_views(msgs.sort(function(a,b) {return new Date(b.created_at).getTime() - new Date(a.created_at).getTime()}));
+        });
+    }
 }
 
 function update_views(array) {
+    listagem.hidden = false;
+    document.getElementById("alert").hidden = true;
     const itens = array.filter(function (e) {
             if (e.frontend != "icaro" && e.frontend != "caiolira" && e.frontend != "hgalvao") {
                 return e;
@@ -96,7 +102,7 @@ function send(senha) {
         result = response;
         return response.json()})
         .then(function(body){
-            if(result.status != 200){
+            if(result.status == 401){
                 swal("Senha incorreta");
             } else {
                 update_msgs();
@@ -118,44 +124,60 @@ function get_select_value() {
 }
 
 function search(opcao, atributo) {
+    let array = []
     if(opcao === "titulo_p") {
-        const array = msgs.filter(a => a.title.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
-        update_views(array);
+        array = msgs.filter(a => a.title.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
     } else if (opcao === "mensagem_p") {
-        const array = msgs.filter(a => a.msg.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
-        update_views(array);
+        array = msgs.filter(a => a.msg.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
     } else {
-        const array = msgs.filter(a => a.author.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
+        array = msgs.filter(a => a.author.toLowerCase().indexOf(atributo.value.toLowerCase()) != -1);
+    }
+    if (array.length == 0) {
+        listagem.hidden = true;
+        document.getElementById("alert").hidden = false;
+        document.getElementById("alert").innerHTML = alert_simples("Nenhuma mensagem encontrada!");
+    } else {
+        set_hidden("alert");
         update_views(array);
-    }    
+    }
 }
 
+
+
 function set_hidden(doc){
-    if (doc == "login_alert"){
-        document.getElementById("login_alert").hidden = "true";
+    if (doc == "alert"){
+        document.getElementById("alert").hidden = "true";
     }
     else if (doc.hidden == false && frontend.length != 0) {
         doc.hidden = true;
     }
 }
 
-function show(document){
+function show(doc){
     if (frontend.length != 0) {
-        document.hidden = !document.hidden;   
+        document.getElementById("alert").hidden = "true";
+        doc.hidden = !doc.hidden;   
     } else {
         alert_login();
     }
 }
 
-function alert_login() {
-    if (frontend.length == 0) {
-        document.getElementById("login_alert").hidden = false;
-        document.getElementById("login_alert").innerHTML = `<div class="alert alert-warning alert-dismissible fade show" role="alert">
-            <strong>Você precisa estar logado!</strong>
-            <button onclick="set_hidden('login_alert')" type="button" class="close" data-dismiss="alert" aria-label="Close">
+function alert_simples(mensagem) {
+    return `<div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>${mensagem}</strong>
+            <button onclick="set_hidden('alert')" type="button" class="close" data-dismiss="alert" aria-label="Close">
             <span aria-hidden="true">&times;</span>
             </button>
-        </div>`;
+    </div>`;
+}
+
+function alert_login() {
+    if (frontend.length == 0) {
+        document.getElementById("alert").hidden = false;
+        document.getElementById("alert").innerHTML = alert_simples("Você precisa estar logado!");
+    } else {
+        listagem.hidden = false;
+        document.getElementById("alert").hidden = true;
     }
 }
 
@@ -170,10 +192,9 @@ function get_msgs_front() {
 }
 
 function msgs_front(mensagens) {
-    
     const items = msgs.filter(e => e.frontend === frontend).map(e => `
     <div class="card bg-light mb-3 shadow scroll">
-        <button type="button" class="close" aria-label="Close" onclick="apagar(recebe_senha(),${e.id})">
+        <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id})">
             <span aria-hidden="true" style="padding-left: 220px">&times;</span>
         </button>
         <div class="card-header">${e.title}</div>
@@ -187,23 +208,47 @@ function msgs_front(mensagens) {
     listagem.innerHTML = items;        
 };
 
-function apagar(senha, id){
-    var result = null;
-    const body = JSON.stringify({credentials: `${frontend}:${senha}`});
-    fetch(`http://150.165.85.16:9900/api/msgs/${id}`, {
-    method: 'delete', 
-    body:body})
-        .then(function(response){
-            if(response.status != 200){
-                swal("Senha incorreta");
-            }
-        }).then(function(){
-            get_msgs_front();
+function apagar(id){
+    swal("Digite sua senha:", {
+        content: {
+            element: "input",
+            attributes: {
+              type: "password",
+            },
+          },
+      })
+      .then((value) => {
+          var result = null;
+          const body = JSON.stringify({credentials: `${frontend}:${value}`});
+          fetch(`http://150.165.85.16:9900/api/msgs/${id}`, {
+          method: 'delete', 
+          body:body})
+              .then(function(response){
+                  if(response.status == 401){
+                      swal("Senha incorreta");
+                  }
+              }).then(function(){
+                  get_msgs_front();
         });
-    };
+    });
+};
 
-function recebe_senha(){
-    const senha = prompt("Digite sua senha:");
-    return senha;
+view_botao();
+
+function view_botao(){
+    window.onscroll = function(){
+        var top = window.pageYOffset || document.documentElement.scrollTop
+        if( top > 300 ) {
+            document.getElementById("topo").hidden = false;
+        } else {
+            document.getElementById("topo").hidden = true;
+        }
+    }
 }
 
+/*function view_botao() {
+    if( window.pageYOffset > 350 ) {
+        console.log("ok");
+        document.getElementById("topo").hidden = false;
+    }
+}*/
