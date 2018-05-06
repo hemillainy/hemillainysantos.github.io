@@ -60,7 +60,7 @@ body::-webkit-scrollbar {
 }
 
 body::-webkit-scrollbar-thumb {
-    background: rgba(14, 13, 14, 0.432);
+    background: rgba(14, 13, 14, 0.432) ;
     border-radius: 9px;
 }
 
