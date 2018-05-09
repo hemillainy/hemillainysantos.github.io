@@ -6,6 +6,7 @@ const autor = document.getElementById("autor");
 let frontend = "";
 
 let msgs = [];
+let home = false;
 
 function set_button_login() {
     if(frontend.length == 0) {
@@ -80,7 +81,7 @@ function update_views(array) {
         if (e.frontend == frontend) {
             body = `
             <div class="card bg-light mb-3 shadow scroll">
-                <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id})">
+                <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id}, true)">
                     <span aria-hidden="true" style="padding-left: 220px">&times;</span>
                 </button>
                 <div class="card-header">${e.title}</div>
@@ -215,7 +216,7 @@ function get_msgs_front() {
 function msgs_front(mensagens) {
     const items = msgs.filter(e => e.frontend === frontend).map(e => `
     <div class="card bg-light mb-3 shadow scroll">
-        <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id})">
+        <button type="button" class="close" aria-label="Close" onclick="apagar(${e.id},false)">
             <span aria-hidden="true" style="padding-left: 220px">&times;</span>
         </button>
         <div class="card-header">${e.title}</div>
@@ -229,7 +230,7 @@ function msgs_front(mensagens) {
     listagem.innerHTML = items;        
 };
 
-function apagar(id){
+function apagar(id, home){
     swal("Digite sua senha:", {
         content: {
             element: "input",
@@ -249,7 +250,11 @@ function apagar(id){
                       swal("Senha incorreta");
                   }
               }).then(function(){
-                  get_msgs_front();
+                  if (home) {
+                      update_msgs();
+                  } else {
+                    get_msgs_front();
+                  }
         });
     });
 };
